@@ -1,3 +1,11 @@
+## creating data for social rents
+## Outputs:
+# sr_df ("working/rdata/sr_df.Rdata") -- social rents by LA by year
+# dat_1920 ("working/rdata/dat_1920.Rdata") -- data for 2019 - 2020
+# dat_1617 ("working/rdata/dat_1617.Rdata") -- data for 2016 - 2017
+# dat_1718 ("working/rdata/dat_1718.Rdata") -- data for 2017 - 2018
+##
+
 # loading packages and data ---------------------------------------
 
 pacman::p_load(tidyverse, readxl, lubridate, jtools, 
@@ -92,27 +100,13 @@ units_vars <- sr_df %>%
   select(ends_with("units")) %>% 
   names()
 
-# function to turn to 0
-make_zero <- function(x){
-  out <- ifelse(is.na(x), 0, x) 
-  return(out)
-}
 
-# test df
-test <- sr_df[units_vars] %>% 
-  map_df(make_zero)
-
-# check the test works
-mean(test[units_vars] == sr_df[units_vars], na.rm = T)
-
-sr_df[units_vars] <- sr_df[units_vars] %>% 
-  map_df(make_zero)
-
-# post change test
-mean(test[units_vars] == sr_df[units_vars])
-
-# removing test
-rm(test)
+sr_df[units_vars] <- 
+  sr_df[units_vars] %>% 
+  map_df(
+    #make na into zero
+    .f = function(x) x %>% replace_na(0)
+    )
 
 # funded_binary -------------------------------------------------
 

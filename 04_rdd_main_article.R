@@ -1,5 +1,12 @@
+## summary: main analysis used in article 
+## outputs:
+## plots and figues save in /viz
+## models and rdd objecs saved in /rdata file
+
 pacman::p_load(tidyverse, readxl, lubridate, jtools, 
                rddtools, AER)
+
+require(patchwork)
 
 rm(list = ls())
 
@@ -9,7 +16,7 @@ source("03_rdd_functions.R")
 
 ## models for social rent rate --------------------------------------------------
 
-# creating rdd data
+# creating rdd data object (required by package)
 sr_dat <- rdd_data(
   y = per_1000_sr,
   x = afford_gap_median,
@@ -45,7 +52,7 @@ sr_cov <- my_fuzzy_cov(cov_df, cov_df$per_1000_sr,
 summary_robust(sr_mod)
 summary_robust(sr_cov$mod)
 rdd_bw_ik(sr_dat, kernel = "Uniform")
-sr_cov$bw
+sr_cov$bw 
 
 # absolute number of additional units for social rent rate ---------------------
 sr_d <- model.matrix(sr_dat)$D 
@@ -175,7 +182,7 @@ f2a <- binned_rdplot(df = dat_1920, x = afford_gap_median,
 f2b <- my_sensi_plot(sr_dat, sr_mod,
                      ymin = -1, ymax = 2)
 
-require(patchwork)
+#  put plots size by side -- require(patchwork)
 f2a + f2b
 
 ggsave("working/viz/figurelatesocialrent.jpeg",

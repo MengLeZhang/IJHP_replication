@@ -1,7 +1,9 @@
+## RDD functions
+## summary: custom functions for loading for RDD analysis
+
+
 pacman::p_load(tidyverse, readxl, lubridate, jtools, 
                rddtools, AER)
-
-## RDD functions
 
 # uniform kernel for weights ------------------------------------------------- 
 
