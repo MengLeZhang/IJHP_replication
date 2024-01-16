@@ -1,3 +1,7 @@
+## 01: Load and clean data. Then save into .Rdata file
+## Output: saved workspace containing datasets used for analysis as .Rdata file 
+## in "working/rdata/rent_gap_full.Rdata"
+
 pacman::p_load(tidyverse, readxl, lubridate)
 
 rm(list = ls())
@@ -253,5 +257,8 @@ merged_20 <- left_join(
 rent_gap_full <- bind_rows(
   merged_16, merged_17, merged_18, merged_19, merged_20
 )
+
+
+# Save final output -------------------------------------------------------
 
 save(rent_gap_full, file = "working/rdata/rent_gap_full.Rdata")
