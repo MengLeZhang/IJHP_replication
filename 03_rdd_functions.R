@@ -17,6 +17,7 @@ Kernel_uni <- function(X, center, bw) {
 # NOTE: if you want to see how each step in the function below works manually
  #  there is a stage by stage run through of an example in the script 07_fuzzy_rd_manual
 
+## [@meng note: this can be refactored -- only need to adjust the dat_step1 once]
 my_fuzzy_rd <- function(rdd_obj, ord = NULL, bw = NULL){
   
   if(is.null(ord) & is.null(bw)){

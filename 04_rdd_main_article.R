@@ -16,11 +16,20 @@ source("03_rdd_functions.R")
 
 ## models for social rent rate --------------------------------------------------
 
+## [@meng's notes] ---
+
+# ?rdd_data
+# function from rddtools, y = outcome, x= forcing, z = assignment var 
+# fizz rdd need z to have the assignment variable as z 
+
+### ,,, okay and the rest of the stuff is in the RDD 
+
+
 # creating rdd data object (required by package)
 sr_dat <- rdd_data(
-  y = per_1000_sr,
-  x = afford_gap_median,
-  z = dat_1920$funded_binary,
+  y = per_1000_sr, # social rent per 1k
+  x = afford_gap_median, ## affordability gap
+  z = dat_1920$funded_binary, ## assignment (was funded??? -- check)
   data = dat_1920,
   cutpoint = 50
 )
@@ -71,6 +80,10 @@ cbind(sr_d, sr_ins, sr_weights, per_1000_sr, dwellings_1000, soc_rent_units) %>%
   mutate(est = sr_est,
          pred = dwellings_1000 * sr_est) %>%
   map_dbl(mean, na.rm = T) # pred = 56.81
+
+### [@meng notes] his prediction is the LATE coef multiplied by the number of dwellings
+## this is then averaged out amongst LAs ()
+## same as mean LA dwelling size X coefficient 
 
 ## Social rent starts by PRPs -------------------------------------------------
 
@@ -182,6 +195,9 @@ f2a <- binned_rdplot(df = dat_1920, x = afford_gap_median,
 f2b <- my_sensi_plot(sr_dat, sr_mod,
                      ymin = -1, ymax = 2)
 
+## [@meng notes] binned_rdplot and my_sensi_plot are michael's functions
+
+
 #  put plots size by side -- require(patchwork)
 f2a + f2b
 
@@ -264,6 +280,7 @@ sr_df %>%
   theme_bw() +
   theme(legend.position = "top") +
   scale_fill_brewer(palette = "Dark2")
+
 
 ggsave("working/viz/figuredensityX.jpeg",
        width = 25,
